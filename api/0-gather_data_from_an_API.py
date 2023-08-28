@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""Task 0 - Gather data from an API"""
 import requests
 import json
 from sys import argv
