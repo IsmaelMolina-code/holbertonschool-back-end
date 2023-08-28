@@ -1,33 +1,31 @@
 #!/usr/bin/python3
-"""Task 0 - Gather data from an API"""
-import requests
+"""Employee Task API"""
 import json
+import requests
 from sys import argv
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     if len(argv) != 2:
         exit()
 
-    users_request = requests.get(
+    user_req = requests.get(
         'https://jsonplaceholder.typicode.com/users/{}'.format(argv[1]))
-    users = json.loads(users_request.text)
-    all_users_id = requests.get(
+    user = json.loads(user_req.text)
+    user_todo_req = requests.get(
         'https://jsonplaceholder.typicode.com/todos?userId={}'.format(argv[1]))
-    all_users_id = json.loads(all_users_id.text)
+    user_todo = json.loads(user_todo_req.text)
 
-    tasks_completed = 0
-    tasks_not_completed = 0
-
-    for task in all_users_id:
-        if task['completed'] is True:
-            tasks_completed += 1
+    completed = 0
+    not_completed = 0
+    for task in user_todo:
+        if task["completed"]:
+            completed += 1
         else:
-            tasks_not_completed += 1
+            not_completed += 1
 
-    print(f"Employee {users['name']} is done with tasks"
-          f"({tasks_completed}/{len(all_users_id)}):")
-
-    for task in all_users_id:
-        if task['completed'] is True:
-            print("\t {}".format(task['title']))
+    print(f"Employee {user['name']} is done with tasks"
+          f"({completed}/{not_completed + completed}):")
+    for task in user_todo:
+        if task["completed"]:
+            print(f'\t {task["title"]}')
